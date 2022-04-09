@@ -62,7 +62,9 @@ $ sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLi
 $ sudo yum -y install terraform  
 
 11. 인스턴스 접속을 위한 키 페어 생성  
-$ cd ~/.ssh $ ssh-keygen 엔터 3번하여 key 생성 완료  
+$ cd ~/.ssh  
+$ ssh-keygen  
+엔터 3번하여 key 생성 완료  
 
 [Terraform 소스 적용]  
 - 테라폼 소스 적용 전 variable.tf 수정 및 확인   
