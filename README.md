@@ -63,8 +63,19 @@ $ cd ~/environment $ wget https://releases.hashicorp.com/terraform/0.13.3/terraf
 $ cd ~/.ssh $ ssh-keygen 엔터 3번하여 key 생성 완료  
 
 [Terraform 소스 적용]  
-※ 테라폼 소스 적용 전 variable.tf 수정 및 확인   
+- 테라폼 소스 적용 전 variable.tf 수정 및 확인   
 $ cd ~/environment/final_pjt  
 $ terraform init  
 $ terraform plan  
 $ terraform apply --auto-approve  
+
+[github]
+- 소스 수정 후 아래 command  
+$ git add *  
+$ git commit -m "commit"  
+$ git push origin main  
+name : sk2ckr  
+password : access token 붙여넣기(기한 만료 시 github에서 access token regenerate)  
+
+- github access token regenerate  
+Settings > Developer settings > Personal access tokens > [token] 선택 > [Regenerate Token]  
