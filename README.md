@@ -55,9 +55,11 @@ $ echo "export PATH=$PATH:/environment" >> ~/.bash_profile $ source ~/.bash_prof
 9. CodeCommit 자격증명 생성  
 IAM 서비스 > 사용자 > 보안자격증명 탭 > AWS CodeCommit에 대한 HTTPS Git 자격 증명 항목 > 자격증명 생성 버튼 클릭  
 
-10. Terraform 소프트웨어 다운로드 및 압축 해제  
-브라우저에서 https://www.terraform.io/downloads.html 에 접속하여 Linux 64-bit 다운로드 링크 복사  
-$ cd ~/environment $ wget https://releases.hashicorp.com/terraform/0.13.3/terraform_0.13.3_linux_amd64.zip $ unzip terraform_0.13.3_linux_amd64.zip  
+10. Terraform 소프트웨어 다운로드 및 설치  
+브라우저에서 https://www.terraform.io/downloads 에 접속하여 Linux / Amazon Linux 탭 선택하여 Command 수행  
+$ sudo yum install -y yum-utils  
+$ sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo  
+$ sudo yum -y install terraform  
 
 11. 인스턴스 접속을 위한 키 페어 생성  
 $ cd ~/.ssh $ ssh-keygen 엔터 3번하여 key 생성 완료  
