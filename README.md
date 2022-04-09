@@ -84,5 +84,5 @@ password : access token 붙여넣기(기한 만료 시 github에서 access token
 - github access token regenerate  
 Settings > Developer settings > Personal access tokens > [token] 선택 > [Regenerate Token]  
 
-- terraform 관련 불필요 파일(terraform-provider-aws_v4.9.0_x5 등) 업로드 시도 시 아래 command 수행
-$ git filter-branch -f --index-filter 'git rm --cached -r --ignore-unmatch terraform/.terraform/'
+- terraform 관련 불필요 파일(terraform-provider-aws_v4.9.0_x5 등) 업로드 시도 시 아래 command 수행  
+$ git filter-branch -f --index-filter 'git rm --cached -r --ignore-unmatch terraform/.terraform/'  
