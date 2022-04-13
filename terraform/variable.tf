@@ -28,21 +28,26 @@ variable "push_script" {
   default     = ""
 }
 
+variable "eks_cluster_name" {
+    type    = string    
+    default = "eks-demo"
+}
+
 # common
 variable "prefix" {
     default = "skuser07531"
 }
 
 variable "region" {
-    default = "us-west-1"
+    default = "ap-northeast-2"
 }
 #for subnet
 variable "az-1a" {
-    default = "us-west-1b"
+    default = "ap-northeast-2a"
 }
 
 variable "az-1b" {
-    default = "us-west-1c"
+    default = "ap-northeast-2c"
 }
 
 # for vpc
