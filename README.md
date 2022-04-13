@@ -45,33 +45,17 @@ $ wget https://gist.githubusercontent.com/joozero/b48ee68e2174a4f1ead93aaf2b5820
 $ sh resize.sh  
 $ df -h  
 
-8. Access Key 생성 및 PATH 등록  
-IAM 서비스 > 사용자 > 보안자격증명 탭 > 액세스키 만들기 버튼 클릭 (아래 CMD 수행 위해 팝업창 유지)  
-$ echo "export AWS_ACCESS_KEY_ID=[키 ID 입력]" >> ~/.bash_profile  
-$ echo "export AWS_SECRET_ACCESS_KEY=[키 값 입력]" >> ~/.bash_profile  
-$ echo "export AWS_DEFAULT_REGION=[리전 ID 입력]" >> /.bash_profile  
-$ echo "export PATH=$PATH:/environment" >> ~/.bash_profile $ source ~/.bash_profile  
-
-9. CodeCommit 자격증명 생성  
-IAM 서비스 > 사용자 > 보안자격증명 탭 > AWS CodeCommit에 대한 HTTPS Git 자격 증명 항목 > 자격증명 생성 버튼 클릭  
-
-10. Terraform 소프트웨어 다운로드 및 설치  
+8. Terraform 소프트웨어 다운로드 및 설치  
 브라우저에서 https://www.terraform.io/downloads 에 접속하여 Linux / Amazon Linux 탭 선택하여 Command 수행  
 $ sudo yum install -y yum-utils  
 $ sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo  
 $ sudo yum -y install terraform  
 
-11. 인스턴스 접속을 위한 키 페어 생성  
-$ cd ~/.ssh  
-$ ssh-keygen  
-엔터 3번하여 key 생성 완료  
-
-[Terraform 소스 적용]  
+9. 소스 마이그레이션  
 - 테라폼 소스 적용 전 variable.tf 수정 및 확인   
-$ cd ~/environment/final_pjt  
-$ terraform init  
-$ terraform plan  
-$ terraform apply --auto-approve  
+- 스크립트 권한 변경
+$ chmod +x ~/environment/eks_workshop_aws/terraform/hash.sh
+$ chmod +x ~/environment/eks_workshop_aws/terraform/push.sh
 
 [github]  
 - 소스 수정 후 아래 command  
@@ -87,13 +71,3 @@ Settings > Developer settings > Personal access tokens > [token] 선택 > [Regen
 - terraform 관련 불필요 파일(terraform-provider-aws_v4.9.0_x5 등) 업로드 시도 시 아래 command 수행  
 $ git filter-branch -f --index-filter 'git rm --cached -r --ignore-unmatch terraform/.terraform/'  
 
-[Amazon ECR에 이미지 올리기]  
-1. 컨테이너라이징할 소스 코드 다운로드 및 git clone  
-$ cd ~/environment  
-$ git clone https://github.com/joozero/amazon-eks-flask.git  
-
-2. 이미지 리포지토리 생성
-$ aws ecr create-repository \
---repository-name demo-flask-backend \
---image-scanning-configuration scanOnPush=true \
---region ${AWS_REGION}
