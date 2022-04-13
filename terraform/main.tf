@@ -49,7 +49,6 @@ resource "aws_subnet" "public_1b" {
 #
 # internet gateway creation
 #
-/*
 resource "aws_internet_gateway" "igw1" {
   vpc_id = aws_vpc.vpc1.id
 
@@ -82,6 +81,7 @@ resource "aws_route_table_association" "rt1_public_1b" {
   subnet_id      = aws_subnet.public_1b.id
   route_table_id = aws_route_table.rt1.id
 }
+/*
 #
 # default security group creation for alb
 #

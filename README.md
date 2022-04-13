@@ -73,7 +73,7 @@ $ terraform init
 $ terraform plan  
 $ terraform apply --auto-approve  
 
-[github]
+[github]  
 - 소스 수정 후 아래 command  
 $ git add *  
 $ git commit -m "commit"  
@@ -86,3 +86,14 @@ Settings > Developer settings > Personal access tokens > [token] 선택 > [Regen
 
 - terraform 관련 불필요 파일(terraform-provider-aws_v4.9.0_x5 등) 업로드 시도 시 아래 command 수행  
 $ git filter-branch -f --index-filter 'git rm --cached -r --ignore-unmatch terraform/.terraform/'  
+
+[Amazon ECR에 이미지 올리기]  
+1. 컨테이너라이징할 소스 코드 다운로드 및 git clone  
+$ cd ~/environment  
+$ git clone https://github.com/joozero/amazon-eks-flask.git  
+
+2. 이미지 리포지토리 생성
+$ aws ecr create-repository \
+--repository-name demo-flask-backend \
+--image-scanning-configuration scanOnPush=true \
+--region ${AWS_REGION}
