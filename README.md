@@ -54,8 +54,8 @@ $ sudo yum -y install terraform
 9. 소스 마이그레이션  
 - 테라폼 소스 적용 전 variable.tf 수정 및 확인  
 - 스크립트 권한 변경  
-$ chmod +x ~/environment/eks_workshop_aws/terraform/hash.sh  
-$ chmod +x ~/environment/eks_workshop_aws/terraform/push.sh  
+$ chmod +x ${HOME}/environment/eks_workshop_aws/terraform/hash.sh  
+$ chmod +x ${HOME}/environment/eks_workshop_aws/terraform/push.sh  
 
 [github]  
 - 소스 수정 후 아래 command  
