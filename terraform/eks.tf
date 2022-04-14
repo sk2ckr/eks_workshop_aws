@@ -45,25 +45,23 @@ resource "aws_iam_role_policy_attachment" "ClusterRole-AmazonEKSVPCResourceContr
 }
 
 
-
 resource "aws_eks_node_group" "eks_node_group" {
   cluster_name    = aws_eks_cluster.eks_cluster.name
   node_group_name = "eks_node_group"
   node_role_arn   = aws_iam_role.NodeGroupRole.arn
-  #subnet_ids      = [aws_subnet.public_1a.id, aws_subnet.public_1b.id]
-  subnet_ids      = aws_subnet.eks_node_group_subnet[*].id
+  subnet_ids      = [aws_subnet.public_1a.id, aws_subnet.public_1b.id]
   disk_size         = 10
-  instance_types    = ["m5.large"]
+  #instance_types    = ["m5.large"]
 
   scaling_config {
-    desired_size = 3
-    max_size     = 5
+    desired_size = 1
+    max_size     = 3
     min_size     = 1
   }
 
-  update_config {
-    max_unavailable = 2
-  }
+  #update_config {
+  #  max_unavailable = 2
+  #}
 
   # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling.
   # Otherwise, EKS will not be able to properly delete EC2 Instances and Elastic Network Interfaces.
@@ -72,23 +70,8 @@ resource "aws_eks_node_group" "eks_node_group" {
     aws_iam_role_policy_attachment.NodeGroupRole-AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.NodeGroupRole-AmazonEC2ContainerRegistryReadOnly,
   ]
-}
-
-data "aws_availability_zones" "available" {
-  state = "available"
-}
-
-resource "aws_subnet" "eks_node_group_subnet" {
-  count = 1
-
-  availability_zone = data.aws_availability_zones.available.names[count.index]
-  cidr_block        = "10.0.3.0/24"
-  vpc_id            = aws_vpc.vpc1.id
-
-  tags = {
-    "kubernetes.io/cluster/${aws_eks_cluster.eks_cluster.name}" = "shared"
   }
-}
+
 
 resource "aws_iam_role" "NodeGroupRole" {
   name = "eks-node-group-role"
@@ -129,4 +112,20 @@ resource "aws_cloudwatch_log_group" "cloudwatch_log_group" {
 
   # ... potentially other configuration ...
 }
+/*
+resource "kubernetes_config_map" "aws_auth" {
+  metadata {
+    name      = "aws-auth"
+    namespace = "kube-system"
+  }
 
+  data = {
+    mapRoles = <<CONFIGMAPAWSAUTH
+- rolearn: arn:aws:iam::[계정넘버]:user/[계정ID]
+  username: admin
+  groups:
+    - system:masters
+CONFIGMAPAWSAUTH
+  }
+}
+*/

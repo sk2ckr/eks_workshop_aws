@@ -1,6 +1,6 @@
-terraform {
-  required_version = ">=1"
-}
+#terraform {
+#  required_version = ">=1"
+#}
 
 resource "aws_ecr_repository" "repo" {
   name = var.image_name

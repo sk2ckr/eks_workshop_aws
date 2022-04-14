@@ -31,6 +31,7 @@ resource "aws_subnet" "public_1a" {
   vpc_id            = aws_vpc.vpc1.id
   availability_zone = var.az-1a
   cidr_block        = var.subnet1a-cidr
+  map_public_ip_on_launch = true
 
   tags  = {
     Name = "${var.prefix}-public-1a"
@@ -41,6 +42,7 @@ resource "aws_subnet" "public_1b" {
   vpc_id            = aws_vpc.vpc1.id
   availability_zone = var.az-1b
   cidr_block        = var.subnet1b-cidr
+  map_public_ip_on_launch = true
 
   tags  = {
     Name = "${var.prefix}-public_1b"

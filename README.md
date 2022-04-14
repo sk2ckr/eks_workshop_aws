@@ -9,7 +9,7 @@ EC2 > 인스턴스 > Cloud9 인스턴스 선택 > 우측 상단 [작업]-[보안
 
 2. IDE에서 IAM 설정 업데이트  
 Cloud9 재접속 > 우측 상단 [기어 아이콘] > 사이드 바의 [AWS SETTINGS] > Credentials 항목에서 AWS managed temporary credentials 설정을 비활성화  
-기존 자격 증명 파일 제거 및 해당 IAM Role 사용 여부 확인  
+- 기존 자격 증명 파일 제거 및 해당 IAM Role 사용 여부 확인  
 $ rm -vf ${HOME}/.aws/credentials  
 $ aws sts get-caller-identity --query Arn | grep 07531-eksworkspace-admin  
 
@@ -32,21 +32,21 @@ $ sudo mv -v /tmp/eksctl /usr/local/bin
 $ eksctl version  
 
 7. Cloud9 추가 세팅  
-현재 리전을 기본값으로 설정  
+- 현재 리전을 기본값으로 설정  
 $ export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')  
 $ echo "export AWS_REGION=${AWS_REGION}" | tee -a ~/.bash_profile  
 $ aws configure set default.region ${AWS_REGION}  
 $ aws configure get default.region  
-현재 계정ID를 환경 변수로 등록  
+- 현재 계정ID를 환경 변수로 등록  
 $ export ACCOUNT_ID=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.accountId')  
 $ echo "export ACCOUNT_ID=${ACCOUNT_ID}" | tee -a ~/.bash_profile  
-Cloud9 VM Disk 용량 증설  
+- Cloud9 VM Disk 용량 증설  
 $ wget https://gist.githubusercontent.com/joozero/b48ee68e2174a4f1ead93aaf2b582090/raw/2dda79390a10328df66e5f6162846017c682bef5/resize.sh  
 $ sh resize.sh  
 $ df -h  
 
 8. Terraform 소프트웨어 다운로드 및 설치  
-브라우저에서 https://www.terraform.io/downloads 에 접속하여 Linux / Amazon Linux 탭 선택하여 Command 수행  
+- 브라우저에서 https://www.terraform.io/downloads 에 접속하여 Linux / Amazon Linux 탭 선택하여 Command 수행  
 $ sudo yum install -y yum-utils  
 $ sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo  
 $ sudo yum -y install terraform  
@@ -71,3 +71,8 @@ Settings > Developer settings > Personal access tokens > [token] 선택 > [Regen
 - terraform 관련 불필요 파일(terraform-provider-aws_v4.9.0_x5 등) 업로드 시도 시 아래 command 수행  
 $ git filter-branch -f --index-filter 'git rm --cached -r --ignore-unmatch terraform/.terraform/'  
 
+[Post Script]  
+- 콘솔 크레덴셜 추가  
+$ rolearn=$(aws cloud9 describe-environment-memberships --environment-id=$C9_PID | jq -r '.memberships[].userArn')  
+$ eksctl create iamidentitymapping --cluster eks-demo --arn ${rolearn} --group system:masters --username admin  
+$ aws eks --region ap-northeast-2 update-kubeconfig --name eks-demo
